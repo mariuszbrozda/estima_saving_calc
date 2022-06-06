@@ -94,9 +94,66 @@ print_btn.place(x=290, y=0)
 calculate_btn.place(x=140, y=200)
 
 
+#RADIOBUTTONS
+
+def pay_contrib_radio_btn():
+    print(radio_state.get())
+
+
+#Variable to hold on to which radio button value is checked.
+radio_state = IntVar()
+weekly_rb = Radiobutton(data_input_frame, text="Weekly", value=1,
+                                           variable=radio_state, command=pay_contrib_radio_btn,
+                                           highlightbackground='white', highlightthickness=1, bg='#f3f4f1')
+
+fortnightly_rb = Radiobutton(data_input_frame, text="Fortnightly", value=2,
+                                           variable=radio_state, command=pay_contrib_radio_btn,
+                                           highlightbackground='white', highlightthickness=1, bg='#f3f4f1')
+
+monthly_rb = Radiobutton(data_input_frame, text="Monthly", value=3,
+                                            variable=radio_state, command=pay_contrib_radio_btn,
+                                            highlightbackground='white', highlightthickness=1, bg='#f3f4f1')
+
+weekly_rb.place(x=90, y=110)
+fortnightly_rb.place(x=90, y=130)
+monthly_rb.place(x=90, y=150)
 
 
 
+# Add Calendar
+def calendar():
+    calendar_root = Tk()
+    calendar_root.title("Calendar")
+    calendar_root.minsize(width=400, height=320)
+    calendar_root.config(padx=15, pady=15, border=2, background='#f3f4f1')
+
+    def print_sel():
+        print(calendar.selection_get())
+        calendar.see(datetime.date(year=2022, month=4, day=5))
+        # to_date_forecast()
+
+    # top = tk.Toplevel(window)
+
+    import datetime
+    today = datetime.date.today()
+
+    mindate = datetime.date(year=2020, month=1, day=1)
+    maxdate = datetime.date(year=2040, month=1, day=1)
+    print(mindate, maxdate)
+
+    calendar = Calendar(calendar_root,  font=("Arial",17, 'bold'),  selectmode='day', locale='en_US',
+                   mindate=mindate, maxdate=maxdate, disabledforeground='red',
+                   cursor="", year=2022, month=4, day=2)
+
+    calendar.place(x=0, y=10)
+    Button(calendar_root, text="OK",fg='green', relief='raised', bd=1, command=print_sel).pack(side=BOTTOM)
+    # date.config(text=f'Today date is:{calendar.get_date()}')
+
+
+
+# Add Button and Label
+Button(data_input_frame, text="Pick date frame",fg='green',  relief='raised', padx=3, pady=3,
+       highlightbackground='white', bg='green', highlightthickness=1, command=calendar).place(x=15, y=200)
 
 
 window.mainloop()
