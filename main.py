@@ -1,6 +1,7 @@
 
 from calendar import Calendar
 from tkinter import *
+import pandas
 
 from PIL import Image,ImageTk
 
@@ -154,6 +155,46 @@ def calendar():
 # Add Button and Label
 Button(data_input_frame, text="Pick date frame",fg='green',  relief='raised', padx=3, pady=3,
        highlightbackground='white', bg='green', highlightthickness=1, command=calendar).place(x=15, y=200)
+
+
+# CHARTS
+
+data1 = pandas.read_csv('data.csv')
+data1 = {
+         'Month': ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun','Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+         'Saving': [250, 14, 8 , 9, 15, 20, 22 , 23, 30, 28, 29, 33]
+         }
+
+data = {
+    'Month': {
+        'Jan': 1,
+        'Feb': 2,
+        'Mar': 3, 'Apr': 4, 'May': 5, 'Jun': 6,'Jul': 7, 'Aug': 8, 'Sep': 9, 'Oct': 10, 'Nov': 11, 'Dec': 12},
+
+}
+
+df1 = pandas.DataFrame(data1, columns=[ 'Month', 'Saving'])
+df2 = pandas.DataFrame(data, columns=[ 'Month', 'Saving'])
+
+
+
+chart = plt.Figure( figsize=(6, 4), dpi=100)
+ax1 = chart.add_subplot(111)
+# ax2 = figure1.add_subplot(111)
+bar1 = FigureCanvasTkAgg(chart, window)
+bar1.get_tk_widget().place(x=15, y=325)
+df1 = df1[['Month', 'Saving']].groupby('Month').sum()
+df2 = df2[['Month', 'Saving']].groupby('Month').sum()
+
+df1.plot(kind='bar', legend=True, color='r', ax=ax1)
+df2.plot(kind='bar', legend=True, color='g', ax=ax1)
+# df1.plot(kind='line', legend=True, ax=ax1, color='r', marker='o', fontsize=12)
+# df2.plot(kind='line', legend=True, ax=ax1, color='b', marker='o', fontsize=12)
+ax1.set_title('Savings up to date')
+ax1.set_ylabel('')
+
+
+
 
 
 window.mainloop()
